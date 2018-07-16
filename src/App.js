@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import './App.css'
 import * as BooksAPI from './BooksAPI'
+import { Link } from "react-router-dom";
 import { Route } from "react-router-dom"
 import BookShelf from './BookShelf'
+import BookGrid from './BookGrid'
+import Search from './Search'
 
 class App extends Component {
   state = {
@@ -18,7 +21,7 @@ class App extends Component {
   onChangeShelf = (book, shelf) => {
     BooksAPI.update(book, shelf);
     this.setState({ book: book.shelf = shelf });
-  }
+  };
 
   searchBooks = query => {
     const books = BooksAPI.search(query).then(books => books);
@@ -26,13 +29,13 @@ class App extends Component {
     if (books !== undefined) {
       this.setState({ searchResults: books });
     } 
-    else if (query == "" || books == undefined) {
+    else if (query === "" || books === undefined) {
       this.setState({ searchResults:[] });
     }
-  }
+  };
 
   render() {
-    const { books } = this.state;
+    const { books, searchResults } = this.state;
 
     return (
       <div className="app">
@@ -42,13 +45,17 @@ class App extends Component {
           render={() => (
             <div className="list-books">
               <BookShelf books={books} onChangeShelf={this.onChangeShelf}/>
+              <div className="open-search">
+                <Link to="/search" />
+              </div>
             </div>
           )} />
         <Route
           path="/search"
           render={() => (
             <div className="search-books">
-              {/* <Search books={books} onChangeShelf={this.onChangeShelf}/> */}
+              <Search books={books} searchBooks={this.searchBooks}/>
+              <BookGrid books={books} searchResults={searchResults} onChangeShelf={this.onChangeShelf} />
             </div>
           )} />
       </div>
