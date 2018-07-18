@@ -9,7 +9,15 @@ class BookGrid extends Component {
       }
 
     render() {
-        const { books, onChangeShelf } = this.props;
+        const { books, onChangeShelf, searchResults } = this.props;
+
+        console.log('====================================');
+        console.log(searchResults);
+        console.log('====================================');
+
+        console.log('====================================');
+        console.log(searchResults.shelf);
+        console.log('====================================');
 
         return(
             <div className="search-books-results">
@@ -20,8 +28,8 @@ class BookGrid extends Component {
                                 title={book.title}
                                 image={book.imageLinks.thumbnail}
                                 authors={book.authors}
-                                book={book}
-                                shelf={book.shelf}
+                                book={searchResults}
+                                shelf={searchResults.shelf}
                                 onChangeShelf={onChangeShelf}/>
                         </li>
                     )) }

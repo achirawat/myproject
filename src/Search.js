@@ -7,6 +7,7 @@ const Search = ({ searchBooks }) => {
     const updateQuery = query => {
         searchBooks(query);
     };
+
     return(
         <div className="search-book-bar">
             <Link className="close-search" to="/" />

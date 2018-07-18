@@ -15,7 +15,9 @@ class App extends Component {
 
   componentDidMount() {
     BooksAPI.getAll()
-      .then(books => this.setState({ books }));
+      .then((books) => {
+        this.setState( () => ({ books }) )
+      });
   };
 
   onChangeShelf = (book, shelf) => {
@@ -23,8 +25,8 @@ class App extends Component {
     this.setState({ book: book.shelf = shelf });
   };
 
-  searchBooks = query => {
-    const books = BooksAPI.search(query).then(books => books);
+  searchBooks = async query => {
+    const books = await BooksAPI.search(query).then(books => books);
 
     if (books !== undefined) {
       this.setState({ searchResults: books });
@@ -32,6 +34,10 @@ class App extends Component {
     else if (query === "" || books === undefined) {
       this.setState({ searchResults:[] });
     }
+
+    // console.log('====================================');
+    // console.log(this.state.searchResults);
+    // console.log('====================================');
   };
 
   render() {
