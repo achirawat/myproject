@@ -6,7 +6,7 @@ const Shelf = props => {
     const { books, onChangeShelf, title } = props;
 
     return(
-        <React.Fragment>
+        <div>
             <h2 className="bookshelf-title">{title}</h2>
             <div className="bookshelf-books">
                 <ol className="books-grid">
@@ -23,7 +23,7 @@ const Shelf = props => {
                     )) }
                 </ol>
             </div>
-        </React.Fragment>
+        </div>
     );
 }
 

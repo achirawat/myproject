@@ -9,7 +9,7 @@ const Search = ({ searchBooks }) => {
     };
 
     return(
-        <div className="search-book-bar">
+        <div className="search-books-bar">
             <Link className="close-search" to="/" />
             <div className="search-books-input-warpper">
                 <input type="text" placeholder="Search by title or author" onChange={event => updateQuery(event.target.value)}/>

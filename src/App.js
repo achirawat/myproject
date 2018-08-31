@@ -22,22 +22,18 @@ class App extends Component {
 
   onChangeShelf = (book, shelf) => {
     BooksAPI.update(book, shelf);
-    this.setState({ book: book.shelf = shelf });
+    this.setState({ books: book.shelf = shelf });
   };
 
   searchBooks = async query => {
     const books = await BooksAPI.search(query).then(books => books);
 
-    if (books !== undefined) {
+    if (books !== undefined && !books.hasOwnProperty("error")) {
       this.setState({ searchResults: books });
     } 
-    else if (query === "" || books === undefined) {
+    else if (query === "" || books === undefined || books.hasOwnProperty("error")) {
       this.setState({ searchResults:[] });
     }
-
-    // console.log('====================================');
-    // console.log(this.state.searchResults);
-    // console.log('====================================');
   };
 
   render() {
