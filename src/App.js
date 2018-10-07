@@ -13,16 +13,15 @@ class App extends Component {
     searchResults: [],
   };
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState( () => ({ books }) )
-      });
+  async componentDidMount() {
+    const data = await BooksAPI.getAll().then(books => books);
+    this.setState({books: data});
   };
 
   onChangeShelf = (book, shelf) => {
     BooksAPI.update(book, shelf);
-    this.setState({ books: book.shelf = shelf });
+    book.shelf = shelf;
+    this.setState(prevState => ({books: prevState.books.filter(b => (b.id === book.id ? {...b, shelf} : b))}));
   };
 
   searchBooks = async query => {
@@ -31,7 +30,8 @@ class App extends Component {
     if (books !== undefined && !books.hasOwnProperty("error")) {
       this.setState({ searchResults: books });
     } 
-    else if (query === "" || books === undefined || books.hasOwnProperty("error")) {
+    
+    if (query === "" || books === undefined || books.hasOwnProperty("error")) {
       this.setState({ searchResults:[] });
     }
   };
@@ -56,7 +56,7 @@ class App extends Component {
           path="/search"
           render={() => (
             <div className="search-books">
-              <Search books={books} searchBooks={this.searchBooks}/>
+              <Search searchBooks={this.searchBooks}/>
               <BookGrid books={books} searchResults={searchResults} onChangeShelf={this.onChangeShelf} />
             </div>
           )} />

@@ -5,22 +5,28 @@ import bookPlaceHolder from "./img/nobookcover.jpg";
 
 class BookGrid extends Component {
     render() {
-        const {onChangeShelf, searchResults } = this.props;
+        const { books, onChangeShelf, searchResults } = this.props;
 
         return(
             <div className="search-books-results">
                 <div className="books-grid">
-                    { searchResults.map(book => (
-                        <li key={book.id}>
-                            <Books 
-                                title={book.title}
-                                image={book.imageLinks !== undefined ? book.imageLinks["thumbnail"] : bookPlaceHolder}
-                                authors={book.authors}
-                                book={searchResults}
-                                shelf={searchResults.shelf}
-                                onChangeShelf={onChangeShelf}/>
-                        </li>
-                    )) }
+                    { searchResults.map(result => {
+                        const bookInShelf = books.find(
+                            book => book.id === result.id
+                        );
+                        return (
+                            <li key={result.id}>
+                                <Books 
+                                    title={result.title}
+                                    image={result.imageLinks !== undefined ? result.imageLinks["thumbnail"] : bookPlaceHolder}
+                                    authors={result.authors}
+                                    book={result}
+                                    shelf={bookInShelf !== undefined ? bookInShelf.shelf : "none"}
+                                    onChangeShelf={onChangeShelf}
+                                />
+                            </li>
+                        );
+                    }) }
                 </div>
             </div>
         );
@@ -28,7 +34,7 @@ class BookGrid extends Component {
 }
 
 BookGrid.propTypes = {
-    searchResults: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired,
 }
 

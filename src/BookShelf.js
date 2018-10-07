@@ -10,7 +10,7 @@ const BookShelf = props => {
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
-            <div className="list-books-content">\
+            <div className="list-books-content">
                 <div className="bookshelf">
                     <Shelf title="Currently Reading" onChangeShelf={onChangeShelf} books={books.filter(book => book.shelf === 'currentlyReading')}/>
                     <Shelf title="Want to Read" onChangeShelf={onChangeShelf} books={books.filter(book => book.shelf === 'wantToRead')}/>
