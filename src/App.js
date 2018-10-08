@@ -21,7 +21,7 @@ class App extends Component {
   onChangeShelf = (book, shelf) => {
     BooksAPI.update(book, shelf);
     book.shelf = shelf;
-    this.setState(prevState => ({books: prevState.books.filter(b => (b.id === book.id ? {...b, shelf} : b))}));
+    this.setState(prevState => ({books: prevState.books.filter(b => b !== book ).concat(book)}));
   };
 
   searchBooks = async query => {
