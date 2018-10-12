@@ -25,13 +25,13 @@ class App extends Component {
   };
 
   searchBooks = async query => {
-    const books = await BooksAPI.search(query).then(books => books);
+    const bookSearch = await BooksAPI.search(query).then(books => books);
 
-    if (books !== undefined && !books.hasOwnProperty("error")) {
-      this.setState({ searchResults: books });
+    if (bookSearch !== undefined && !bookSearch.hasOwnProperty("error")) {
+      this.setState({ searchResults: bookSearch });
     } 
     
-    if (query === "" || books === undefined || books.hasOwnProperty("error")) {
+    if (query === "" || bookSearch === undefined || bookSearch.hasOwnProperty("error")) {
       this.setState({ searchResults:[] });
     }
   };

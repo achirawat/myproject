@@ -18,7 +18,7 @@ const Search = ({ searchBooks }) => {
     );
 };
 
-Search.prototype = {
+Search.propType = {
     searchBooks: PropTypes.func.isRequired,
 }
 

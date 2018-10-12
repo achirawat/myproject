@@ -35,6 +35,7 @@ class BookGrid extends Component {
 
 BookGrid.propTypes = {
     books: PropTypes.array.isRequired,
+    searchResults: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired,
 }
 
