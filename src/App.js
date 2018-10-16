@@ -19,9 +19,29 @@ class App extends Component {
   };
 
   onChangeShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf);
-    book.shelf = shelf;
-    this.setState(prevState => ({books: prevState.books.filter(b => b !== book ).concat(book)}));
+    BooksAPI.update(book, shelf).then(() => {
+      let books = this.state.books;
+
+      if (shelf === "") { // Unsetting book from the shelf
+          books = books.filter(b => {
+              return b.id !== book.id;
+          });
+      } else if (books.filter(b => b.id === book.id).length === 0) { // Setting a new book to shelf
+          books.push({
+              ...book,
+              shelf
+          });
+      } else { // Updating a book's shelf
+          books = books.map(b => {
+              if (b.id === book.id) {
+                  b.shelf = shelf;
+              }
+              return b;
+          });
+      }
+
+      this.setState({books, loading: false});
+  });
   };
 
   searchBooks = async query => {

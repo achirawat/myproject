@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { debounce  } from "throttle-debounce";
 
 const Search = ({ searchBooks }) => {
 
     const updateQuery = query => {
-        searchBooks(query);
+        debounce (500, searchBooks(query));
     };
 
     return(
