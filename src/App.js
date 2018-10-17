@@ -11,18 +11,18 @@ class App extends Component {
   state = {
     books: [],
     searchResults: [],
+    query: '',
   };
 
-  async componentDidMount() {
-    const data = await BooksAPI.getAll().then(books => books);
-    this.setState({books: data});
+  componentDidMount() {
+    BooksAPI.getAll().then(books => this.setState({books}));
   };
 
   onChangeShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then(() => {
       let books = this.state.books;
 
-      if (shelf === "") { // Unsetting book from the shelf
+      if (shelf === null) { // Unsetting book from the shelf
           books = books.filter(b => {
               return b.id !== book.id;
           });
@@ -40,24 +40,29 @@ class App extends Component {
           });
       }
 
-      this.setState({books, loading: false});
-  });
+      this.setState({books});
+    });
   };
 
   searchBooks = async query => {
-    const bookSearch = await BooksAPI.search(query).then(books => books);
+    this.setState({query})
+    const bookSearch = await BooksAPI.search(query);
 
     if (bookSearch !== undefined && !bookSearch.hasOwnProperty("error")) {
       this.setState({ searchResults: bookSearch });
     } 
     
-    if (query === "" || bookSearch === undefined || bookSearch.hasOwnProperty("error")) {
+    if (query === null || bookSearch === undefined || bookSearch.hasOwnProperty("error")) {
       this.setState({ searchResults:[] });
     }
   };
 
   render() {
     const { books, searchResults } = this.state;
+    console.log(this.state.query);
+    
+    console.log(searchResults);
+    
 
     return (
       <div className="app">
