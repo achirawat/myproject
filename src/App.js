@@ -11,7 +11,6 @@ class App extends Component {
   state = {
     books: [],
     searchResults: [],
-    query: '',
   };
 
   componentDidMount() {
@@ -19,33 +18,12 @@ class App extends Component {
   };
 
   onChangeShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() => {
-      let books = this.state.books;
-
-      if (shelf === null) { // Unsetting book from the shelf
-          books = books.filter(b => {
-              return b.id !== book.id;
-          });
-      } else if (books.filter(b => b.id === book.id).length === 0) { // Setting a new book to shelf
-          books.push({
-              ...book,
-              shelf
-          });
-      } else { // Updating a book's shelf
-          books = books.map(b => {
-              if (b.id === book.id) {
-                  b.shelf = shelf;
-              }
-              return b;
-          });
-      }
-
-      this.setState({books});
-    });
+    BooksAPI.update(book, shelf);
+    book.shelf = shelf;
+    this.setState(prevState => ({ bookList: prevState.bookList.filter(b => b !== book ).concat(book) }));
   };
 
   searchBooks = async query => {
-    this.setState({query})
     const bookSearch = await BooksAPI.search(query);
 
     if (bookSearch !== undefined && !bookSearch.hasOwnProperty("error")) {
@@ -58,11 +36,7 @@ class App extends Component {
   };
 
   render() {
-    const { books, searchResults } = this.state;
-    console.log(this.state.query);
-    
-    console.log(searchResults);
-    
+    const { books, searchResults } = this.state;    
 
     return (
       <div className="app">
